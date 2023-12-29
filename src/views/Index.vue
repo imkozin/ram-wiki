@@ -13,11 +13,11 @@
       </select>
     </div>
     <div class="characters-list">
-      <div class="characters-list__item" v-for="character in store.characters" :key="character.id">
+      <div class="characters-list__card" v-for="character in store.characters" :key="character.id">
         <div v-if="characters === null">
         Loading...
       </div>
-        <img class="characters-list__item-img" :src="character.image" alt="">
+        <img class="characters-list__card-img" :src="character.image" alt="">
         <h1 @click="goToCharacterPage(character.id)">{{ character.name }}</h1>
         <p>{{ character.status }}</p>
         <p>{{ character.species }}</p>
@@ -34,6 +34,10 @@
         </span>
       </div>
     </div>
+    <button @click="loadPrevPage" :disabled="store.currentPage === 1">
+      Load Prev Page
+    </button>
+    <span>{{ store.currentPage }}</span>
     <button @click="loadNextPage" >
       Load Next Page
     </button>
@@ -67,19 +71,15 @@ const loadNextPage = async () => {
   await store.fetchCharacters(nextPage);
 };
 
+const loadPrevPage = async () => {
+  const prevPage = store.currentPage - 1;
+  console.log('prev', prevPage);
+  await store.fetchCharacters(prevPage);
+};
 
 </script>
 
 <style lang="scss" scoped>
-div {
-  max-width: 800px; /* Adjust the value based on your design */
-  margin: 0 auto; /* Center the content */
-}
-
-div > div {
-  margin-bottom: 16px;
-}
-
 input, select {
   margin-right: 8px;
   padding: 8px;
@@ -101,37 +101,43 @@ button {
 button:hover {
   background-color: #2980b9;
 }
-.characters-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  flex-wrap: wrap;
 
-  &__item {
-    cursor: pointer;
-    // flex-basis: 20%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0px 0px 14px 1px #e6e6e6;
-    padding: 16px;
-    margin: 8px;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-
-    &:hover {
-      background-color: #f0f0f0;
-    }
-
-    &-img {
-      width: 80px; 
-      margin-right: 16px;
-    }
-  }
+button:disabled {
+  background-color: #b6d8f9;
 }
 
-.episodes-list {
+.characters-list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.characters-list__card {
+  cursor: pointer;
+  width: 200px; /* Set a fixed width for each card */
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 14px 1px #e6e6e6;
+  padding: 16px;
+  margin: 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  &-img {
+    width: 180px;
+    margin-right: 16px;
+  }
+
+  .episodes-list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow the episodes list to grow to fill the available space */
+  }
 }
 </style>
