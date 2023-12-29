@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 
 export const characterStore = defineStore('characters', {
   state: () => ({
     characters: [],
     currentPage: 1,
   }),
-
   actions: {
     async fetchCharacters(page) {
       try {
@@ -24,7 +28,8 @@ export const characterStore = defineStore('characters', {
       }
     },
     getNumber(url) {
-        return url.replace(/[^0-9]/g, '')
+      return url.replace(/[^0-9]/g, '')
     },
   },
+  persist: true,
 })
