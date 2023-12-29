@@ -7,6 +7,18 @@
         <h1 @click="goToCharacterPage(character.id)">{{ character.name }}</h1>
         <p>{{ character.status }}</p>
         <p>{{ character.species }}</p>
+        <span
+            v-for="(episode, index) in character.episode.slice(0, 5)"
+            :key="index"
+              >
+            <ul >
+              <RouterLink :to="`/episode/${store.getNumber(episode)}`">
+                <li class="text-xs">
+                  {{ `Episode No. ${store.getNumber(episode)}` }}
+                </li>
+              </RouterLink>
+            </ul>
+        </span>
       </div>
     </div>
     <button @click="loadNextPage" >
