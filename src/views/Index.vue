@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <h1>Rick and Morty</h1> -->
+    <h1>Rick and Morty</h1>
     <div>
       <label for="character">Find a character</label>
       <input type="text" name="query" id="query" placeholder="Search" v-model="searchQuery">
@@ -25,7 +25,7 @@
             <ul>
               <RouterLink :to="`/episode/${store.getNumber(episode)}`">
                 <li class="episodes-list__item">
-                  {{ `Episode No. ${store.getNumber(episode)}` }}
+                  {{ `${store.getNumber(episode)}` }}
                 </li>
               </RouterLink>
             </ul>
@@ -45,7 +45,7 @@
             <ul>
               <RouterLink :to="`/episode/${store.getNumber(episode)}`">
                 <li class="episodes-list__item">
-                  {{ `Episode No. ${store.getNumber(episode)}` }}
+                  {{ `${store.getNumber(episode)}` }}
                 </li>
               </RouterLink>
             </ul>
@@ -74,6 +74,8 @@ import { ref, onMounted, computed, watchEffect, onBeforeMount, watch } from 'vue
 import { characterStore } from '@/stores/characters';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 const store = characterStore();
 const router = useRouter()
@@ -81,8 +83,30 @@ const router = useRouter()
 let searchQuery = ref('')
 let status = ref(null)
 
+
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
+
+onMounted(() => {
+  if (localStorage.getItem('pinia-state')) {
+    pinia.state.value = JSON.parse(localStorage.getItem('pinia-state'));
+  }
+});
+
+watch(() => store.currentPage, (currentPage) => {
+  localStorage.setItem('pinia-state', JSON.stringify({ currentPage }));
+}, { deep: true });
+
+
 onBeforeMount(() => {
-  store.fetchCharacters(store.currentPage);
+  const persistedState = JSON.parse(localStorage.getItem('pinia-state'));
+  
+  if (persistedState && persistedState.currentPage) {
+    store.fetchCharacters(persistedState.currentPage);
+  } else {
+    store.fetchCharacters(store.currentPage);
+  }
 });
 
 const goToCharacterPage = (id) => {
@@ -123,7 +147,7 @@ watchEffect(() => {
   }
 });
 
-watch([store.currentPage, status.value], () => {
+watch(status.value, () => {
   store.fetchCharacters(store.currentPage);
 });
 
