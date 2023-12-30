@@ -19,8 +19,8 @@ export const characterStore = defineStore('characters', {
           `https://rickandmortyapi.com/api/character/?page=${page}`
         )
         this.characters = res.data.results
-        console.log('chars', this.characters)
-        console.log('cur page', this.currentPage)
+        // console.log('chars', this.characters)
+        // console.log('cur page', this.currentPage)
         this.currentPage = page
       } catch (error) {
         console.error('Error fetching characters:', error)
