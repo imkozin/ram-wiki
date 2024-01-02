@@ -19,10 +19,6 @@
   background-attachment: fixed;
 } */
 
-.character-page {
-  background: #666;
-}
-
 body {
   background: url('../assets/background.png'), lightgray 50%;
   background-position: center;

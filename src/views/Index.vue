@@ -207,7 +207,9 @@ const onChange = () => {
   }
 
   &__searchbox {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 2em;
 
     &-input {
@@ -244,6 +246,12 @@ const onChange = () => {
       background-color: #000;
       color: #FFF;
       border-radius: 5px;
+    }
+  }
+
+  @media screen and (max-width: 440px) {
+    &__btnblock {
+      right: 15%;
     }
   }
 }
@@ -314,6 +322,7 @@ input, select {
   background: #393939;  
   color: #FFF;
   font-size: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: #A35EB3;;
