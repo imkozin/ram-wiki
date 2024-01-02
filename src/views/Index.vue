@@ -1,55 +1,68 @@
 <template>
-  <div>
-    <h1>Rick and Morty</h1>
-    <div>
-      <label for="character">Find a character</label>
-      <input type="text" name="query" id="query" placeholder="Search" v-model="searchQuery">
-      <label for="status">Status</label>
-      <select name="status" id="status" v-model="status" @change="onChange($event)">
-        <option value="null" default>Select Status</option>
+  <div class="main-page">
+    <h1 class="main-page__title">Rick and Morty</h1>
+    <div class="main-page__searchbox">
+      <!-- <label for="character">Find a character</label> -->
+      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model="searchQuery">
+      <!-- <label for="status">Status</label> -->
+      <select name="status" id="status" v-model="status" @change="onChange($event)" class="main-page__searchbox-select">
+        <option value="null" default>Select by Status</option>
         <option value="alive">Alive</option>
         <option value="dead">Dead</option>
         <option value="unknown">Unknown</option>
       </select>
     </div>
+    
 
     <div class="characters-list" v-if="store.characters && !searchQuery && !status">
       <div class="characters-list__card" v-for="character in store.characters" :key="character.id">
+        <h1 class="characters-list__card-title" @click="goToCharacterPage(character.id)">{{ character.name }}</h1>
         <img class="characters-list__card-img" :src="character.image" alt="">
-        <h1 @click="goToCharacterPage(character.id)">{{ character.name }}</h1>
-        <p>{{ character.status }}</p>
-        <p>{{ character.species }}</p>
-        <span
-            v-for="(episode, index) in character.episode.slice(0, 5)"
-            :key="index" class="episodes-list">
-            <ul>
-              <RouterLink :to="`/episode/${store.getNumber(episode)}`">
-                <li class="episodes-list__item">
-                  {{ `${store.getNumber(episode)}` }}
-                </li>
-              </RouterLink>
-            </ul>
-        </span>
+        <div class="characters-list__card-stat">
+          <p v-if="character.status === 'Dead'" :style="{ color: '#ff0505' }">{{ character.status.toLowerCase() }}</p>
+          <p v-else-if="character.status === 'Alive'" :style="{ color: 'lime' }">{{ character.status.toLowerCase() }}</p>
+          <p v-else :style="{ color: '#E5C82F' }">{{ character.status.toLowerCase() }}</p>
+        </div>
+        <div class="characters-list__card-race">
+          <p>Race:</p>
+          <p>{{ character.species }}</p>
+        </div>
+        <div class="characters-list__card-elist">
+          <p>Episodes:</p>
+          <div
+               v-for="(episode, index) in character.episode.slice(0, 5)"
+               :key="index" class="episodes-list">
+                 <RouterLink class="episodes-list__item" :to="`/episode/${store.getNumber(episode)}`">
+                     {{ `${store.getNumber(episode)}` }}
+                 </RouterLink>
+          </div>
+        </div>
       </div>
     </div>
     
     <div class="characters-list" v-if="store.characters && searchQuery || store.characters && status || store.characters && searchQuery && status">
-      <div class="character-list__card" v-for="character in filteredCharacters" :key="character.id">
+      <div class="characters-list__card" v-for="character in filteredCharacters" :key="character.id">
+        <h1 class="characters-list__card-title" @click="goToCharacterPage(character.id)">{{ character.name }}</h1>
         <img class="characters-list__card-img" :src="character.image" alt="">
-        <h1 @click="goToCharacterPage(character.id)">{{ character.name }}</h1>
-        <p>{{ character.status }}</p>
-        <p>{{ character.species }}</p>
-        <span
-            v-for="(episode, index) in character.episode.slice(0, 5)"
-            :key="index" class="episodes-list">
-            <ul>
-              <RouterLink :to="`/episode/${store.getNumber(episode)}`">
-                <li class="episodes-list__item">
-                  {{ `${store.getNumber(episode)}` }}
-                </li>
-              </RouterLink>
-            </ul>
-        </span>
+        <div class="characters-list__card-stat">
+          <p v-if="character.status === 'Dead'" :style="{ color: '#ff0505' }">{{ character.status.toLowerCase() }}</p>
+          <p v-else-if="character.status === 'Alive'" :style="{ color: 'lime' }">{{ character.status.toLowerCase() }}</p>
+          <p v-else :style="{ color: '#E5C82F' }">{{ character.status.toLowerCase() }}</p>
+        </div>
+        <div class="characters-list__card-race">
+          <p>Race:</p>
+          <p>{{ character.species }}</p>
+        </div>
+        <div class="characters-list__card-elist">
+          <p>Episodes:</p>
+          <div
+               v-for="(episode, index) in character.episode.slice(0, 5)"
+               :key="index" class="episodes-list">
+                 <RouterLink class="episodes-list__item" :to="`/episode/${store.getNumber(episode)}`">
+                     {{ `${store.getNumber(episode)}` }}
+                 </RouterLink>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -57,13 +70,13 @@
         Loading...
     </div>
     
-    <div v-if="store.characters && !searchQuery && status === null">
-      <button @click="loadPrevPage" :disabled="store.currentPage === 1">
-        Load Prev Page
+    <div v-if="store.characters && !searchQuery && status === null" class="main-page__btnblock">
+      <button @click="loadPrevPage" :disabled="store.currentPage === 1" class="btn btn-back">
+        BACK
       </button>
-      <span>{{ store.currentPage }}</span>
-      <button @click="loadNextPage" >
-        Load Next Page
+      <span class="main-page__btnblock-page">{{ store.currentPage }}</span>
+      <button @click="loadNextPage" class="btn btn-forward">
+        NEXT
       </button>
     </div>
   </div>
@@ -183,6 +196,59 @@ const onChange = () => {
 </script>
 
 <style lang="scss" scoped>
+.main-page {
+  &__title {
+    font-family: 'StoryBrush', sans-serif;
+    letter-spacing: 5px;
+    font-size: 4em;
+    text-align: center;
+    margin: 1em 0;
+    color: #393939;
+  }
+
+  &__searchbox {
+    text-align: center;
+    margin-bottom: 2em;
+
+    &-input {
+      width: 407px;
+      height: 38px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      border: 2px solid #000;
+      background: #FFF;
+    }
+
+    &-select {
+      width: 140px;
+      height: 38px;
+      padding: 6px 8px;
+      border-radius: 4px;
+      background: #000;
+      color: white;
+    }
+  }
+
+  &__btnblock {
+    position: relative;
+    right: 2%;
+    float: right;
+    margin-bottom: 4em;
+
+    &-page {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      padding: 10px;
+      background-color: #000;
+      color: #FFF;
+      border-radius: 5px;
+    }
+  }
+}
+
+
 input, select {
   margin-right: 8px;
   padding: 8px;
@@ -190,57 +256,113 @@ input, select {
   border-radius: 4px;
 }
 
-button {
-  margin-top: 16px;
-  padding: 8px 16px;
-  background-color: #3498db;
-  color: #fff;
+.btn {
+  width: 100px;
+  padding: 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-family: 'Roboto', sans-serif;
   transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #2980b9;
+.btn.btn-back {
+  background-color: #000;
+  color: #FFF;
+  margin-right: 10px;
 }
 
-button:disabled {
-  background-color: #b6d8f9;
+.btn.btn-back:hover {
+  color: #000;
+  background-color: #FFF;
+}
+
+.btn.btn-forward {
+  background-color: #000;
+  color: #FFF;
+  margin-left: 10px;
+}
+
+.btn.btn-forward:hover {
+  color: #000;
+  background-color: #999;
+}
+
+.btn.btn-back:disabled {
+  cursor: not-allowed;
+  color: #FFF;
+  background-color:#999;;
 }
 
 .characters-list {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   flex-wrap: wrap;
 }
 
 .characters-list__card {
   cursor: pointer;
-  width: 200px; /* Set a fixed width for each card */
+  font-family: 'Roboto', sans-serif;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 0px 14px 1px #e6e6e6;
-  padding: 16px;
-  margin: 8px;
-  border-radius: 8px;
-  transition: background-color 0.3s;
+  width: 196px;
+  height: 320px;
+  margin: 30px 0;
+  flex-direction: column;
+  border-radius: 6px;
+  background: #393939;  
+  color: #FFF;
+  font-size: 12px;
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: #A35EB3;;
+  }
+
+  &-title { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 42px;
+    width: 194px;
+    padding: 12px 0;
+    color: #ADE175;
+    text-align: center;
+    white-space: wrap;
+    font-family: 'StoryBrush', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 
   &-img {
-    width: 180px;
-    margin-right: 16px;
+    width: 160px;
+    height: 180px;
+    margin-bottom: 10px;
+  }
+
+  &-stat {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  &-race, &-elist {
+    display: flex;
+    width: 160px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
   }
 
   .episodes-list {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* Allow the episodes list to grow to fill the available space */
+    &__item {
+      margin-left: auto;
+      color: white;
+    }
   }
 }
+
+
+
 </style>
