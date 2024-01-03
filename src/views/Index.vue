@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div v-else-if="store.characters === null">
+    <div v-else-if="store.characters === null" class="main-page__loading">
         Loading...
     </div>
     
@@ -75,7 +75,7 @@
         BACK
       </button>
       <span class="main-page__btnblock-page">{{ store.currentPage }}</span>
-      <button @click="loadNextPage" class="btn btn-forward">
+      <button @click="loadNextPage" :disabled="store.currentPage === 42" class="btn btn-forward">
         NEXT
       </button>
     </div>
@@ -197,6 +197,12 @@ const onChange = () => {
 
 <style lang="scss" scoped>
 .main-page {
+  &__loading {
+    font-family: 'StoryBrush', sans-serif;
+    font-size: 32px;
+    margin: 0 auto;
+  }
+
   &__title {
     font-family: 'StoryBrush', sans-serif;
     letter-spacing: 5px;
@@ -300,7 +306,7 @@ input, select {
 .btn.btn-back:disabled {
   cursor: not-allowed;
   color: #FFF;
-  background-color:#999;;
+  background-color:#d1d1d1;;
 }
 
 .characters-list {
