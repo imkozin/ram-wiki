@@ -3,10 +3,16 @@
     <h1 class="main-page__title">Rick and Morty</h1>
     <div class="main-page__searchbox">
       <!-- <label for="character">Find a character</label> -->
-      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model="searchQuery">
+      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model.lazy="searchQuery">
       <!-- <label for="status">Status</label> -->
+      <btn class="main-page__searchbox-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M14.0625 14.0625L17.8125 17.8125" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.375 15.3125C12.6542 15.3125 15.3125 12.6542 15.3125 9.375C15.3125 6.09581 12.6542 3.4375 9.375 3.4375C6.09581 3.4375 3.4375 6.09581 3.4375 9.375C3.4375 12.6542 6.09581 15.3125 9.375 15.3125Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </btn>
       <select name="status" id="status" v-model="status" @change="onChange($event)" class="main-page__searchbox-select">
-        <option value="null" default>Select by Status</option>
+        <option value="null" default>Select by status</option>
         <option value="alive">Alive</option>
         <option value="dead">Dead</option>
         <option value="unknown">Unknown</option>
@@ -159,14 +165,15 @@ const loadFilteredCharacters = async () => {
 //   }
 // });
 
-watchEffect(() => {
-  store.fetchCharacters(store.currentPage);
-});
 
 // watch(status, () => {
 //   store.fetchCharacters(store.currentPage);
 // });
 
+watchEffect(() => {
+  store.fetchCharacters(store.currentPage);
+});
+  
 watch([status, searchQuery], () => {
   loadFilteredCharacters()
 })
@@ -221,10 +228,10 @@ const onChange = () => {
     margin-bottom: 2em;
 
     &-input {
-      width: 407px;
+      width: 350px;
       height: 38px;
       padding: 8px 16px;
-      border-radius: 4px;
+      border-radius: 4px 0 0 4px;
       border: 2px solid #000;
       background: #FFF;
     }
@@ -236,6 +243,21 @@ const onChange = () => {
       border-radius: 4px;
       background: #000;
       color: white;
+      margin-left: 20px;
+    }
+
+    &-btn {
+      cursor: pointer;
+      display: flex;
+      width: 38px;
+      height: 38px;
+      padding: 9px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0px 4px 4px 0px;
+      background: #000;
+      margin-left: -20px;
+      border: none;
     }
   }
 
