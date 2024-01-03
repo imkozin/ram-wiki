@@ -8,7 +8,7 @@ pinia.use(piniaPluginPersistedstate)
 
 export const characterStore = defineStore('characters', {
   state: () => ({
-    characters: null,
+    characters: [],
     currentPage: 1,
   }),
   actions: {

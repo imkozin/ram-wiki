@@ -3,7 +3,7 @@
     <h1 class="main-page__title">Rick and Morty</h1>
     <div class="main-page__searchbox">
       <!-- <label for="character">Find a character</label> -->
-      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model="searchQuery" @input="onSearchInput">
+      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model="searchQuery">
       <!-- <label for="status">Status</label> -->
       <select name="status" id="status" v-model="status" @change="onChange($event)" class="main-page__searchbox-select">
         <option value="null" default>Select by Status</option>
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div v-else-if="store.characters === null" class="main-page__loading">
+    <div v-else-if="!store.characters" class="main-page__loading">
         Loading...
     </div>
     
@@ -166,9 +166,9 @@ watch(status, () => {
   store.fetchCharacters(store.currentPage);
 });
 
-// watch([status, searchQuery], () => {
-//   loadFilteredCharacters()
-// })
+watch([status, searchQuery], () => {
+  loadFilteredCharacters()
+})
 
 const loadNextPage = async () => {
   const nextPage = store.currentPage + 1;
