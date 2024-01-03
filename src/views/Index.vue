@@ -159,21 +159,17 @@ watchEffect(() => {
   }
 });
 
-watch(status, () => {
+watchEffect(() => {
   store.fetchCharacters(store.currentPage);
 });
-
-watch([status, searchQuery], () => {
-  loadFilteredCharacters()
-})
 
 // watch(status, () => {
 //   store.fetchCharacters(store.currentPage);
 // });
 
-// watchEffect(() => {
-//   loadFilteredCharacters();
-// });
+watch([status, searchQuery], () => {
+  loadFilteredCharacters()
+})
 
 const loadNextPage = async () => {
   const nextPage = store.currentPage + 1;
