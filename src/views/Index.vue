@@ -126,8 +126,7 @@ const goToCharacterPage = (id) => {
   router.push({name: 'character', params: {id}})
 }
 
-const loadFilteredCharacters = async (e) => {
-  e.preventDefault()
+const loadFilteredCharacters = async () => {
   let url = `https://rickandmortyapi.com/api/character/?`;
   if (searchQuery.value) {
     url = `https://rickandmortyapi.com/api/character/?`;
@@ -152,7 +151,7 @@ const loadFilteredCharacters = async (e) => {
   store.characters.value = data.results;
 };
 
-watchEffect(() => {
+watchEffect(async () => {
   if (searchQuery.value) {
     loadFilteredCharacters();
   } 
@@ -161,11 +160,11 @@ watchEffect(() => {
   }
 });
 
-watch(status.value, () => {
+watch(status, () => {
   store.fetchCharacters(store.currentPage);
 });
 
-watch([status.value, searchQuery.value], () => {
+watch([status, searchQuery], () => {
   loadFilteredCharacters()
 })
 
@@ -294,13 +293,13 @@ input, select {
 
 .btn.btn-forward {
   background-color: #000;
-  color: #FFF;
+  color: #F0F0F0;
   margin-left: 10px;
 }
 
 .btn.btn-forward:hover {
   color: #000;
-  background-color: #999;
+  background-color: #aeaeae;
 }
 
 .btn.btn-back:disabled {
@@ -332,7 +331,7 @@ input, select {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: #A35EB3;;
+    background-color: #A35EB3;
   }
 
   &-title { 
@@ -375,6 +374,10 @@ input, select {
     &__item {
       margin-left: auto;
       color: white;
+
+      &:hover {
+        color: #393939
+      }
     }
   }
 }

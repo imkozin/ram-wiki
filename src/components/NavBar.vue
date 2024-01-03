@@ -64,13 +64,13 @@ onMounted(() => {
     padding: 8px 16px;
     border-radius: 4px;
     border: none;
-    color: #333;
-    background-color: #fff;
+    background-color: #333;
+    color: #fff;
 
     &:hover {
         cursor: pointer;
-        background-color: #333;
-        color: #fff;
+        color: #333;
+        background-color: #fff;
     }
   }
 }
