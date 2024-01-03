@@ -3,7 +3,7 @@
     <h1 class="main-page__title">Rick and Morty</h1>
     <div class="main-page__searchbox">
       <!-- <label for="character">Find a character</label> -->
-      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model="searchQuery">
+      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model.lazy="searchQuery">
       <!-- <label for="status">Status</label> -->
       <select name="status" id="status" v-model="status" @change="onChange($event)" class="main-page__searchbox-select">
         <option value="null" default>Select by Status</option>
@@ -100,9 +100,6 @@ let status = ref(null)
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
-
-
-
 onMounted(() => {
   if (localStorage.getItem('pinia-state')) {
     pinia.state.value = JSON.parse(localStorage.getItem('pinia-state'));
@@ -153,22 +150,30 @@ const loadFilteredCharacters = async () => {
   store.characters.value = data.results;
 };
 
-watchEffect(() => {
-  if (searchQuery.value) {
-    loadFilteredCharacters();
-  } 
-  else {
-    store.fetchCharacters(store.currentPage);
-  }
-});
+// watchEffect(() => {
+//   if (searchQuery.value) {
+//     loadFilteredCharacters();
+//   } 
+//   else {
+//     store.fetchCharacters(store.currentPage);
+//   }
+// });
+
+// watch(status, () => {
+//   store.fetchCharacters(store.currentPage);
+// });
+
+// watch([status, searchQuery], () => {
+//   loadFilteredCharacters()
+// })
 
 watch(status, () => {
   store.fetchCharacters(store.currentPage);
 });
 
-watch([status, searchQuery], () => {
-  loadFilteredCharacters()
-})
+watchEffect(() => {
+  loadFilteredCharacters();
+});
 
 const loadNextPage = async () => {
   const nextPage = store.currentPage + 1;
