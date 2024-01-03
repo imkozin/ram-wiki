@@ -154,38 +154,17 @@ const loadFilteredCharacters = async () => {
 };
 
 watchEffect(() => {
-  if (searchQuery.value !== '' && status.value !== null) {
+  if (searchQuery.value) {
     loadFilteredCharacters();
-  }
+  } 
   else {
     store.fetchCharacters(store.currentPage);
   }
 });
 
-watch(searchQuery, () => {
-  if (searchQuery.value !== '') {
-    loadFilteredCharacters();
-  }
-});
-
 watch(status, () => {
-  if (status.value !== null) {
-    loadFilteredCharacters();
-  }
+  store.fetchCharacters(store.currentPage);
 });
-
-// watchEffect(() => {
-//   if (searchQuery.value) {
-//     loadFilteredCharacters();
-//   } 
-//   else {
-//     store.fetchCharacters(store.currentPage);
-//   }
-// });
-
-// watch(status, () => {
-//   store.fetchCharacters(store.currentPage);
-// });
 
 // watch([status, searchQuery], () => {
 //   loadFilteredCharacters()
