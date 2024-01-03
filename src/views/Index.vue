@@ -150,30 +150,30 @@ const loadFilteredCharacters = async () => {
   store.characters.value = data.results;
 };
 
-// watchEffect(() => {
-//   if (searchQuery.value) {
-//     loadFilteredCharacters();
-//   } 
-//   else {
-//     store.fetchCharacters(store.currentPage);
-//   }
-// });
-
-// watch(status, () => {
-//   store.fetchCharacters(store.currentPage);
-// });
-
-// watch([status, searchQuery], () => {
-//   loadFilteredCharacters()
-// })
+watchEffect(() => {
+  if (searchQuery.value) {
+    loadFilteredCharacters();
+  } 
+  else {
+    store.fetchCharacters(store.currentPage);
+  }
+});
 
 watch(status, () => {
   store.fetchCharacters(store.currentPage);
 });
 
-watchEffect(() => {
-  loadFilteredCharacters();
-});
+watch([status, searchQuery], () => {
+  loadFilteredCharacters()
+})
+
+// watch(status, () => {
+//   store.fetchCharacters(store.currentPage);
+// });
+
+// watchEffect(() => {
+//   loadFilteredCharacters();
+// });
 
 const loadNextPage = async () => {
   const nextPage = store.currentPage + 1;
