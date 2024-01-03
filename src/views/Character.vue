@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="character !== null" class="character-page">
-      <div class="character-page__image">
-        <img :src="character.image" :alt="character.name">
+      <div>
+        <img :src="character.image" :alt="character.name" class="character-page__image">
       </div>
       <div class="character-page__details">
         <h1 class="character-name">{{ character.name }}</h1>
@@ -51,22 +51,23 @@ const getCharacter = async (id) => {
 
 <style lang="scss" scoped>
 .character-page {
-  margin-top: 30px;
-  height: 50vh;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.40);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  font-family: 'Roboto', sans-serif;
+  gap: 30px;
 
    &__image {
-    width: 200px;
-    height: 200px;
+    border: 5px solid #333;
+    border-radius: 3px;
   }
 
   &__details {
     padding: 20px;
-    border-radius: 10px;
-
+    border-radius: 3px;
+    border: 3px solid #333;
+    background-color: rgba(255, 255, 255, 0.70);
     .character-name {
       font-size: 24px;
       margin-bottom: 10px;
@@ -87,26 +88,26 @@ const getCharacter = async (id) => {
       }
     }
   }
-  @media screen and (max-width: 640px) {
-    height: 60vh;
+  @media screen and (max-width: 660px) {
     flex-direction: column;
   }
 
-  @media screen and (max-width: 440px) {
+  // @media screen and (max-width: 440px) {
+  //   height: 60vh;
 
-    &__image {
-      position: relative;
-      top: 5%;
-      left: 10%;
-    }
+  //   &__image {
+  //     position: relative;
+  //     top: 5%;
+  //     left: 10%;
+  //   }
 
-    &__details {
-      text-align: center;
+  //   &__details {
+  //     text-align: center;
 
-      .details-section {
-        justify-content: center;
-      }
-    }
-  }
+  //     .details-section {
+  //       justify-content: center;
+  //     }
+  //   }
+  // }
 }
 </style>

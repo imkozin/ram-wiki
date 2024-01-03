@@ -1,17 +1,21 @@
 <template>
-  <div v-if="episode !== null">
-    <h3>Episode No {{episode.id}}</h3>
-    <div  class="episode">
-      <h2>{{episode.episode }}</h2>
-      <h1>{{ episode.name }}</h1>
-      <p>Released: {{ episode.air_date }} </p>
-    </div>
-    <div v-if="episode && episode.characters">
-        <div v-for="char in characterImages" :key="char" class="w-full md:w-1/3 p-1 md:p-2">
-        <RouterLink :to="`/character/${store.getNumber(char)}`">
-            <img :alt="char" :src="char" class="block h-full w-full rounded-lg object-cover object-center" />
-        </RouterLink>
+  <div>
+    <div v-if="episode !== null" class="episode-page">
+      <div class="episode-page__details">
+        <h3>Episode No {{episode.id}}</h3>
+        <div  class="episode-details">
+          <h2>{{episode.episode }}</h2>
+          <h1 class="episode-details__title">{{ episode.name }}</h1>
+          <p>Released: {{ episode.air_date }} </p>
         </div>
+      </div>
+      <div v-if="episode && episode.characters" class="episode-page__characters">
+          <div v-for="char in characterImages" :key="char" >
+          <RouterLink :to="`/character/${store.getNumber(char)}`">
+              <img :alt="char" :src="char" class="episode-page__characters-images"/>
+          </RouterLink>
+          </div>
+      </div>
     </div>
   </div>
 </template>
@@ -62,5 +66,40 @@ const getCharacterImages = async () => {
 </script>
 
 <style lang="scss" scoped>
-/* Your styles here */
+.episode-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  font-family: 'Roboto', sans-serif;
+
+  &__details {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  &__characters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+
+    &-images {
+      border: 5px solid #333;
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+.episode-details {
+  &__title {
+    font-family: 'StoryBrush', sans-serif;
+    color: #333;
+    letter-spacing: 3px;
+    font-size: 42px;
+  }
+}
 </style>
