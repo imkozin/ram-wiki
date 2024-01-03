@@ -89,7 +89,6 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import { debounce } from 'lodash';
 
 const store = characterStore();
 const router = useRouter()
@@ -155,21 +154,42 @@ const loadFilteredCharacters = async () => {
 };
 
 watchEffect(() => {
-  if (searchQuery.value) {
+  if (searchQuery.value !== null && status.value !== null) {
     loadFilteredCharacters();
-  } 
+  }
   else {
     store.fetchCharacters(store.currentPage);
   }
 });
 
-watch(status, () => {
-  store.fetchCharacters(store.currentPage);
+watch(searchQuery, () => {
+  if (searchQuery.value !== '') {
+    loadFilteredCharacters();
+  }
 });
 
-watch([status, searchQuery], () => {
-  loadFilteredCharacters()
-})
+watch(status, () => {
+  if (status.value !== null) {
+    loadFilteredCharacters();
+  }
+});
+
+// watchEffect(() => {
+//   if (searchQuery.value) {
+//     loadFilteredCharacters();
+//   } 
+//   else {
+//     store.fetchCharacters(store.currentPage);
+//   }
+// });
+
+// watch(status, () => {
+//   store.fetchCharacters(store.currentPage);
+// });
+
+// watch([status, searchQuery], () => {
+//   loadFilteredCharacters()
+// })
 
 const loadNextPage = async () => {
   const nextPage = store.currentPage + 1;
@@ -195,12 +215,6 @@ const onChange = () => {
   }
   loadFilteredCharacters();
 }
-
-const debouncedLoadFilteredCharacters = debounce(loadFilteredCharacters, 300);
-
-const onSearchInput = () => {
-  debouncedLoadFilteredCharacters();
-};
 </script>
 
 <style lang="scss" scoped>
