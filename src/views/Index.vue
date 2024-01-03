@@ -163,9 +163,7 @@ watchEffect(() => {
 });
 
 watch(searchQuery, () => {
-  if (searchQuery.value !== '') {
     loadFilteredCharacters();
-  }
 });
 
 watch(status, () => {
