@@ -3,7 +3,7 @@
     <h1 class="main-page__title">Rick and Morty</h1>
     <div class="main-page__searchbox">
       <!-- <label for="character">Find a character</label> -->
-      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model="searchQuery" @submit.prevent="onSubmit">
+      <input class="main-page__searchbox-input" type="text" name="query" id="query" placeholder="Search character by name" v-model="searchQuery" >
       <!-- <label for="status">Status</label> -->
       <select name="status" id="status" v-model="status" @change="onChange($event)" class="main-page__searchbox-select">
         <option value="null" default>Select by Status</option>
@@ -126,7 +126,8 @@ const goToCharacterPage = (id) => {
   router.push({name: 'character', params: {id}})
 }
 
-const loadFilteredCharacters = async () => {
+const loadFilteredCharacters = async (e) => {
+  e.preventDefault()
   let url = `https://rickandmortyapi.com/api/character/?`;
   if (searchQuery.value) {
     url = `https://rickandmortyapi.com/api/character/?`;
@@ -160,9 +161,9 @@ watchEffect(() => {
   }
 });
 
-// watch(status.value, () => {
-//   store.fetchCharacters(store.currentPage);
-// });
+watch(status.value, () => {
+  store.fetchCharacters(store.currentPage);
+});
 
 watch([status.value, searchQuery.value], () => {
   loadFilteredCharacters()
@@ -185,10 +186,6 @@ const filteredCharacters = computed(() => {
 
   return filteredList
 });
-
-const onSubmit = () => {
-  loadFilteredCharacters();
-};
 
 const onChange = () => {
   if (status.value === "null") {
