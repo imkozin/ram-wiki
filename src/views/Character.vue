@@ -88,26 +88,8 @@ const getCharacter = async (id) => {
       }
     }
   }
-  @media screen and (max-width: 660px) {
+  @media screen and (max-width: 769px) {
     flex-direction: column;
   }
-
-  // @media screen and (max-width: 440px) {
-  //   height: 60vh;
-
-  //   &__image {
-  //     position: relative;
-  //     top: 5%;
-  //     left: 10%;
-  //   }
-
-  //   &__details {
-  //     text-align: center;
-
-  //     .details-section {
-  //       justify-content: center;
-  //     }
-  //   }
-  // }
 }
 </style>

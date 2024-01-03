@@ -37,7 +37,7 @@ onMounted(() => {
   top: 0;
   right: 0;
   left: 0;
-  background-color: #999;
+  background-color: #e1e1e1;
   transition: background-color 0.3s ease;
   display: flex;
   justify-content: space-between;
@@ -46,10 +46,16 @@ onMounted(() => {
 
   &-link {
     font-family: 'Roboto', sans-serif;
-    color: #333;
+    color: #111;
     text-decoration: none; 
+    font-weight: bold;
 
-    &:visited {
+    &:hover {
+        color: #fff;
+    }
+
+    &:active {
+        color: #fff;
         font-weight: bold;
     }
   }

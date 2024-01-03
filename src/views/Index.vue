@@ -232,9 +232,8 @@ const onChange = () => {
   }
 
   &__btnblock {
-    position: relative;
-    right: 2%;
-    float: right;
+    display: flex;
+    justify-content: flex-end;
     margin-bottom: 4em;
 
     &-page {
@@ -249,9 +248,11 @@ const onChange = () => {
     }
   }
 
-  @media screen and (max-width: 440px) {
+  @media screen and (max-width: 769px) {
     &__btnblock {
-      right: 15%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
