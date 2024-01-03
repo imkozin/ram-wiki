@@ -160,9 +160,9 @@ watchEffect(() => {
   }
 });
 
-watch(status.value, () => {
-  store.fetchCharacters(store.currentPage);
-});
+// watch(status.value, () => {
+//   store.fetchCharacters(store.currentPage);
+// });
 
 watch([status.value, searchQuery.value], () => {
   loadFilteredCharacters()
