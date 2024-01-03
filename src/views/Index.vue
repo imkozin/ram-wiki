@@ -256,7 +256,7 @@ const onChange = () => {
       align-items: center;
       border-radius: 0px 4px 4px 0px;
       background: #000;
-      margin-left: -20px;
+      margin-left: -8px;
       border: none;
     }
   }
