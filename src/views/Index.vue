@@ -74,7 +74,7 @@
       <button @click="loadPrevPage" :disabled="store.currentPage === 1" class="btn btn-back">
         BACK
       </button>
-      <span class="main-page__btnblock-page">{{ store.currentPage }}</span>
+      <span class="main-page__btnblock-page">{{ store.currentPage }} / 42</span>
       <button @click="loadNextPage" :disabled="store.currentPage === 42" class="btn btn-forward">
         NEXT
       </button>
@@ -154,7 +154,7 @@ const loadFilteredCharacters = async () => {
 };
 
 watchEffect(() => {
-  if (searchQuery.value !== null && status.value !== null) {
+  if (searchQuery.value !== '' && status.value !== null) {
     loadFilteredCharacters();
   }
   else {
@@ -163,7 +163,9 @@ watchEffect(() => {
 });
 
 watch(searchQuery, () => {
+  if (searchQuery.value !== '') {
     loadFilteredCharacters();
+  }
 });
 
 watch(status, () => {
@@ -263,6 +265,7 @@ const onChange = () => {
     margin-bottom: 4em;
 
     &-page {
+      text-align: center;
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
@@ -271,6 +274,7 @@ const onChange = () => {
       background-color: #000;
       color: #FFF;
       border-radius: 5px;
+      width: 70px;
     }
   }
 
@@ -323,7 +327,7 @@ input, select {
   background-color: #aeaeae;
 }
 
-.btn.btn-back:disabled {
+.btn.btn-back:disabled, .btn.btn-forward:disabled {
   cursor: not-allowed;
   color: #FFF;
   background-color:#d1d1d1;;
