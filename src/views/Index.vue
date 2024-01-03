@@ -89,6 +89,7 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import { debounce } from 'lodash';
 
 const store = characterStore();
 const router = useRouter()
@@ -99,6 +100,8 @@ let status = ref(null)
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
+
+
 
 
 onMounted(() => {
@@ -193,9 +196,11 @@ const onChange = () => {
   loadFilteredCharacters();
 }
 
+const debouncedLoadFilteredCharacters = debounce(loadFilteredCharacters, 300);
+
 const onSearchInput = () => {
-  loadFilteredCharacters()
-}
+  debouncedLoadFilteredCharacters();
+};
 </script>
 
 <style lang="scss" scoped>
@@ -203,7 +208,7 @@ const onSearchInput = () => {
   &__loading {
     font-family: 'StoryBrush', sans-serif;
     font-size: 32px;
-    margin: 0 auto;
+    text-align: center;
   }
 
   &__title {
