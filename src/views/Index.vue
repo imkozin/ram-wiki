@@ -107,18 +107,18 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
 onMounted(() => {
-  if (localStorage.getItem('pinia-state')) {
-    pinia.state.value = JSON.parse(localStorage.getItem('pinia-state'));
+  if (sessionStorage.getItem('pinia-state')) {
+    pinia.state.value = JSON.parse(sessionStorage.getItem('pinia-state'));
   }
 });
 
 watch(() => store.currentPage, (currentPage) => {
-  localStorage.setItem('pinia-state', JSON.stringify({ currentPage }));
+  sessionStorage.setItem('pinia-state', JSON.stringify({ currentPage }));
 }, { deep: true });
 
 
 onBeforeMount(() => {
-  const persistedState = JSON.parse(localStorage.getItem('pinia-state'));
+  const persistedState = JSON.parse(sessionStorage.getItem('pinia-state'));
   
   if (persistedState && persistedState.currentPage) {
     store.fetchCharacters(persistedState.currentPage);
