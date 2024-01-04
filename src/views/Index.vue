@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <div v-else-if="!store.characters" class="main-page__loading">
+    <div v-else-if="store.characters === null" class="main-page__loading">
         Loading...
     </div>
     
